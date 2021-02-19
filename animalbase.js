@@ -24,9 +24,9 @@ function start() {
 //Register buttons
 function addEventListenersToButtons() {
   console.log("addEventListenersToButtons");
-  document.querySelectorAll(".filter").forEach(btn => {
-    btn.addEventListener("click", filterBTNs);
-  });
+  document
+    .querySelector("[data-action=filter]")
+    .addEventListener("click", clickFilterButton);
 }
 
 async function loadJSON() {
