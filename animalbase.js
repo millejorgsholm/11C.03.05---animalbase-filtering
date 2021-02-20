@@ -122,6 +122,7 @@ function filterAnimals() {
   return filteredAnimals;
 }
 
+//Cats
 function isCat(animal) {
   console.log("isCat");
   if (animal.type === "cat") {
@@ -131,6 +132,7 @@ function isCat(animal) {
   }
 }
 
+//Dogs
 function isDog(animal) {
   console.log("isDog");
   if (animal.type === "dog") {
@@ -139,7 +141,7 @@ function isDog(animal) {
     return false;
   }
 }
-
+//All
 function isAll(animal) {
   console.log("isAll");
   return true;
