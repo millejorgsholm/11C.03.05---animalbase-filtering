@@ -2,10 +2,10 @@
 
 window.addEventListener("DOMContentLoaded", start);
 
+//The allAnimals array (empty)
 let allAnimals = [];
-let filter;
 
-//Creating the prototype for all animals:
+// The prototype for all animals:
 const Animal = {
   name: "",
   desc: "-unknown animal-",
@@ -13,43 +13,44 @@ const Animal = {
   age: 0,
 };
 
-const allFilterButtons = document.querySelectorAll(
-  `button.filter[data-action="filter"`
-);
-
 function start() {
-  console.log("start");
+  console.log("ready");
+
+  // TODO: Adding eventListeners to filter and sort buttons
+
+  document
+    .querySelector("[data-filter=cat]")
+    .addEventListener("click", clickCatBtn);
+  document
+    .querySelector("[data-filter=dog]")
+    .addEventListener("click", clickDogBtn);
+  document
+    .querySelector("[data-filter=all]")
+    .addEventListener("click", clickAllBtn);
 
   loadJSON();
-
-  // TODO: Add event-listeners to sort buttons
-
-  // Add event-listeners to filter-buttons
-  allFilterButtons.forEach(filterButton => {
-    filterButton.addEventListener("click", clickFilterButton);
-  });
 }
 
-//Loading JSON data
+//Loading JSON
 async function loadJSON() {
-  console.log("loadJSON");
+  console.log("loadJS");
   const response = await fetch("animals.json");
   const jsonData = await response.json();
 
-  //When loaded, prepare data objects
+  // when JSON is loaded, prepare data objects
   prepareObjects(jsonData);
 }
 
 function prepareObjects(jsonData) {
-  console.log("prepareObjects");
-  allAnimals = jsonData.map(prepareObject);
+  console.log("prepareJSObjects");
+  allAnimals = jsonData.map(preapareObject);
 
+  // TODO: This might not be the function we want to call first
   displayList(allAnimals);
 }
 
-function prepareObject(jsonObject) {
-  console.log("prepareObject");
-
+function preapareObject(jsonObject) {
+  console.log("prepareJSObject");
   const animal = Object.create(Animal);
 
   const texts = jsonObject.fullname.split(" ");
@@ -61,70 +62,26 @@ function prepareObject(jsonObject) {
   return animal;
 }
 
-function displayList(animals) {
-  console.log("displayList");
-
-  //Clear the list
-  document.querySelector("#list tbody").innerHTML = "";
-
-  //Build a new list
-  animals.forEach(displayAnimal);
+//When clicking cat button
+function clickCatBtn() {
+  const filterCats = allAnimals.filter(lookForCats);
+  displayList(filterCats);
+}
+//When clicking dog button
+function clickDogBtn() {
+  const filterDogs = allAnimals.filter(lookForDogs);
+  displayList(filterDogs);
 }
 
-function displayAnimal(animal) {
-  console.log("displayAnimal");
-
-  //Create clone
-  const clone = document
-    .querySelector("template#animal")
-    .content.cloneNode(true);
-
-  //set clone data
-  clone.querySelector("[data-field=name]").textContent = animal.name;
-  clone.querySelector("[data-field=desc]").textContent = animal.desc;
-  clone.querySelector("[data-field=type]").textContent = animal.type;
-  clone.querySelector("[data-field=age]").textContent = animal.age;
-
-  //Append clone to list
-  document.querySelector("#list tbody").appendChild(clone);
+//When clicking all button
+function clickAllBtn() {
+  const filterAll = allAnimals.filter(lookForAllAnimals);
+  displayList(filterAll);
 }
 
-function clickFilterButton(event) {
-  filter = event.target.dataset.filter;
-  console.log(filter);
-
-  const filteredAnimals = filterAnimals();
-  console.log(filteredAnimals);
-  displayList(filteredAnimals);
-}
-
-//Filtering the animals
-function filterAnimals() {
-  console.log("filterAnimals");
-
-  let filteredAnimals = [];
-
-  switch (filter) {
-    case "all":
-      filteredAnimals = allAnimals.filter(isAll);
-      break;
-    case "cat":
-      filteredAnimals = allAnimals.filter(isCat);
-      break;
-    case "dog":
-      filteredAnimals = allAnimals.filter(isDog);
-      break;
-    default:
-      console.log("I don't know this animal :(");
-  }
-
-  console.log(filteredAnimals);
-  return filteredAnimals;
-}
-
-//Cats
-function isCat(animal) {
-  console.log("isCat");
+//It is looking for cats
+function lookForCats(animal) {
+  console.log("Cats only");
   if (animal.type === "cat") {
     return true;
   } else {
@@ -132,17 +89,42 @@ function isCat(animal) {
   }
 }
 
-//Dogs
-function isDog(animal) {
-  console.log("isDog");
+//It is looking for dogs
+function lookForDogs(animal) {
+  console.log("Dogs only");
   if (animal.type === "dog") {
     return true;
   } else {
     return false;
   }
 }
-//All
-function isAll(animal) {
-  console.log("isAll");
+
+//It is looking for all animals
+function lookForAllAnimals(animal) {
+  console.log("allAnimals");
   return true;
+}
+
+function displayList(animals) {
+  // clear the list
+  document.querySelector("#list tbody").innerHTML = "";
+
+  // build a new list
+  animals.forEach(displayAnimal);
+}
+
+function displayAnimal(animal) {
+  // create clone
+  const clone = document
+    .querySelector("template#animal")
+    .content.cloneNode(true);
+
+  // set clone data
+  clone.querySelector("[data-field=name]").textContent = animal.name;
+  clone.querySelector("[data-field=desc]").textContent = animal.desc;
+  clone.querySelector("[data-field=type]").textContent = animal.type;
+  clone.querySelector("[data-field=age]").textContent = animal.age;
+
+  // append clone to list
+  document.querySelector("#list tbody").appendChild(clone);
 }
