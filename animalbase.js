@@ -17,7 +17,7 @@ function start() {
   console.log("ready");
 
   // TODO: Adding eventListeners to filter and sort buttons
-
+  //Filter
   document
     .querySelector("[data-filter=cat]")
     .addEventListener("click", clickCatBtn);
@@ -27,6 +27,23 @@ function start() {
   document
     .querySelector("[data-filter=all]")
     .addEventListener("click", clickAllBtn);
+
+  //Sort
+  document
+    .querySelector("[data-sort=name]")
+    .addEventListener("click", clickSortName);
+
+  document
+    .querySelector("[data-sort=type]")
+    .addEventListener("click", clickSortType);
+
+  document
+    .querySelector("[data-sort=desc]")
+    .addEventListener("click", clickSortDesc);
+
+  document
+    .querySelector("[data-sort=age]")
+    .addEventListener("click", clickSortAge);
 
   loadJSON();
 }
@@ -77,6 +94,66 @@ function clickDogBtn() {
 function clickAllBtn() {
   const filterAll = allAnimals.filter(lookForAllAnimals);
   displayList(filterAll);
+}
+
+//Sort name
+function clickSortName() {
+  const sortName = allAnimals.sort(compareName);
+  displayList(sortName);
+}
+
+//Sort type
+function clickSortType() {
+  const sortType = allAnimals.sort(compareType);
+  displayList(sortType);
+}
+
+//Sort description
+function clickSortDesc() {
+  const sortDesc = allAnimals.sort(compareDesc);
+  displayList(sortDesc);
+}
+
+//Sort age
+function clickSortAge() {
+  const sortAge = allAnimals.sort(compareAge);
+  displayList(sortAge);
+}
+
+//Comparing names
+function compareName(a, b) {
+  if (a.name < b.name) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+
+//Comparing types
+function compareType(a, b) {
+  if (a.name < b.name) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+
+//Comparing description
+function compareDesc(a, b) {
+  if (a.name < b.name) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+
+//Comparing age
+function compareAge(a, b) {
+  if (a.name < b.name) {
+    return -1;
+  } else {
+    return 1;
+  }
 }
 
 //It is looking for cats
