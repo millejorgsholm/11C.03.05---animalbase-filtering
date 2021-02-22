@@ -98,24 +98,28 @@ function clickAllBtn() {
 
 //Sort name
 function clickSortName() {
+  console.log("Sorting by name");
   const sortName = allAnimals.sort(compareName);
   displayList(sortName);
 }
 
 //Sort type
 function clickSortType() {
+  console.log("Sorting by type");
   const sortType = allAnimals.sort(compareType);
   displayList(sortType);
 }
 
 //Sort description
 function clickSortDesc() {
+  console.log("Sorting by description");
   const sortDesc = allAnimals.sort(compareDesc);
   displayList(sortDesc);
 }
 
 //Sort age
 function clickSortAge() {
+  console.log("Sorting by age");
   const sortAge = allAnimals.sort(compareAge);
   displayList(sortAge);
 }
