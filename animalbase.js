@@ -19,34 +19,14 @@ function start() {
 
   // TODO: Adding eventListeners to filter and sort buttons
   //Filter
-  document
-    .querySelector("[data-filter=cat]")
-    .addEventListener("click", clickCatBtn);
-  document
-    .querySelector("[data-filter=dog]")
-    .addEventListener("click", clickDogBtn);
-  document
-    .querySelector("[data-filter=all]")
-    .addEventListener("click", clickAllBtn);
-
-  //Sort
-  document
-    .querySelector("[data-sort=name]")
-    .addEventListener("click", clickSortName);
-
-  document
-    .querySelector("[data-sort=type]")
-    .addEventListener("click", clickSortType);
-
-  document
-    .querySelector("[data-sort=desc]")
-    .addEventListener("click", clickSortDesc);
-
-  document
-    .querySelector("[data-sort=age]")
-    .addEventListener("click", clickSortAge);
-
+  registerButtons();
   loadJSON();
+}
+
+function registerButtons() {
+  document
+    .querySelectorAll("[data-action='filter']")
+    .forEach(button => button.addEventListener("click", selectFilter));
 }
 
 //Loading JSON
@@ -80,111 +60,30 @@ function preapareObject(jsonObject) {
   return animal;
 }
 
-//When clicking cat button
-function clickCatBtn() {
-  const filterCats = allAnimals.filter(lookForCats);
-  displayList(filterCats);
-}
-//When clicking dog button
-function clickDogBtn() {
-  const filterDogs = allAnimals.filter(lookForDogs);
-  displayList(filterDogs);
+function selectFilter(event) {
+  const filter = event.target.dataset.filter;
+  console.log(`User selected ${filter}`);
+  filterList(filter);
 }
 
-//When clicking all button
-function clickAllBtn() {
-  const filterAll = allAnimals.filter(lookForAllAnimals);
-  displayList(filterAll);
-}
-
-//Sort name
-function clickSortName() {
-  console.log("Sorting by name");
-  const sortName = allAnimals.sort(compareName);
-  displayList(sortName);
-}
-
-//Sort type
-function clickSortType() {
-  console.log("Sorting by type");
-  const sortType = allAnimals.sort(compareType);
-  displayList(sortType);
-}
-
-//Sort description
-function clickSortDesc() {
-  console.log("Sorting by description");
-  const sortDesc = allAnimals.sort(compareDesc);
-  displayList(sortDesc);
-}
-
-//Sort age
-function clickSortAge() {
-  console.log("Sorting by age");
-  const sortAge = allAnimals.sort(compareAge);
-  displayList(sortAge);
-}
-
-//Comparing names
-function compareName(a, b) {
-  if (a.name < b.name) {
-    return -1;
-  } else {
-    return 1;
+function filterList(filterBy) {
+  let filteredList = allAnimals;
+  if (filterBy === "cat") {
+    filteredList = allAnimals.filter(isCat);
+  } else if (filterBy === "dog") {
+    filteredList = allAnimals.filter(isDog);
   }
+  displayList(filteredList);
 }
 
-//Comparing types
-function compareType(a, b) {
-  if (a.name < b.name) {
-    return -1;
-  } else {
-    return 1;
-  }
+//if cat
+function isCat(animal) {
+  return animal.type === "cat";
 }
 
-//Comparing description
-function compareDesc(a, b) {
-  if (a.name < b.name) {
-    return -1;
-  } else {
-    return 1;
-  }
-}
-
-//Comparing age
-function compareAge(a, b) {
-  if (a.name < b.name) {
-    return -1;
-  } else {
-    return 1;
-  }
-}
-
-//It is looking for cats
-function lookForCats(animal) {
-  console.log("Cats only");
-  if (animal.type === "cat") {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-//It is looking for dogs
-function lookForDogs(animal) {
-  console.log("Dogs only");
-  if (animal.type === "dog") {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-//It is looking for all animals
-function lookForAllAnimals(animal) {
-  console.log("allAnimals");
-  return true;
+//if dog
+function isDog(animal) {
+  return animal.type === "dog";
 }
 
 function displayList(animals) {
@@ -208,7 +107,7 @@ function displayAnimal(animal) {
   clone.querySelector("[data-field=age]").textContent = animal.age;
 
   //ask whether an animal is starred or not
-  if (animal.star === true) {
+  if (animal.star) {
     clone.querySelector("[data-field=star]").textContent = "⭐";
   } else {
     clone.querySelector("[data-field=star]").textContent = "☆";
