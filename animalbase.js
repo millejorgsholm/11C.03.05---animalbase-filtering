@@ -86,6 +86,36 @@ function isDog(animal) {
   return animal.type === "dog";
 }
 
+//The sorting list
+function sortList(sortBy) {
+  let sortedList = allAnimals;
+  if (sortBy === "name") {
+    sortedList = sortedList.sort(sortByName);
+  } else if (sortBy === "type") {
+    sortedList = sortedList.sort(sortByType);
+  }
+
+  displayList(sortedList);
+}
+
+//Sorting by name
+function sortByName(animalA, animalB) {
+  if (animalA.name < animalB.name) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+
+//Sorting by type
+function sortByType(animalA, animalB) {
+  if (animalA.type < animalB.type) {
+    return -1;
+  } else {
+    return 1;
+  }
+}
+
 function displayList(animals) {
   // clear the list
   document.querySelector("#list tbody").innerHTML = "";
